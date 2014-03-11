@@ -17,7 +17,7 @@ describe Turnstile::Observer do
   describe "#stats" do
     it "calls adapter with the correct window" do
       Timecop.freeze Time.at(timestamp) do
-        expect(adapter).to receive(:fetch).once.with(previous_window_timestamp)
+        expect(adapter).to receive(:fetch).once.with(previous_window_timestamp).and_return({})
         subject.stats
       end
     end

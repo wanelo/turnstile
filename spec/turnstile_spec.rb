@@ -20,8 +20,11 @@ describe Turnstile do
   describe "general tests" do
     let(:expected_stats) do
       {
-          'ios' => 2,
-          'unknown' => 1
+          'total' => 3,
+          'platforms' => {
+            'ios' => 2,
+            'unknown' => 1
+          }
       }
     end
 

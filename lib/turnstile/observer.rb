@@ -5,7 +5,11 @@ module Turnstile
     include Turnstile::Helpers::Time
 
     def stats
-      adapter.fetch(window_timestamp(Time.now.to_i, true))
+      platforms = adapter.fetch(window_timestamp(Time.now.to_i, true))
+      {
+          'total' => platforms.values.inject(:+).to_i,
+          'platforms' => platforms
+      }
     end
 
     private
