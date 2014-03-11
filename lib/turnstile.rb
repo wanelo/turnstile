@@ -1,6 +1,7 @@
 require 'turnstile/version'
 require 'turnstile/configuration'
 require 'turnstile/adapter'
+require 'turnstile/tracker'
 
 module Turnstile
   def self.configure(&block)
