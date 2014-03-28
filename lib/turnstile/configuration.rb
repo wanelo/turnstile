@@ -1,6 +1,6 @@
 module Turnstile
   class Configuration
-    attr_writer :redis_host, :redis_port, :redis_db, :activity_interval
+    attr_writer :redis_host, :redis_port, :redis_db, :activity_interval, :sampling_rate
 
     def configure
       yield self
@@ -21,6 +21,10 @@ module Turnstile
 
     def activity_interval
       (@activity_interval || 60).to_i
+    end
+
+    def sampling_rate
+      (@sampling_rate || 100).to_i
     end
   end
 end

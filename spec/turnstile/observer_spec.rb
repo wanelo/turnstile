@@ -24,10 +24,30 @@ describe Turnstile::Observer do
     }
   end
 
+  let(:extrapolated_stats) do
+    {
+      stats: {
+        total: 20,
+        platforms: {
+          ios: 20
+        }
+      },
+      users: sample_data
+    }
+  end
+
   describe "#stats" do
-    it "fetches data from adapter and aggregates it" do
+    before do
       expect(adapter).to receive(:fetch).once.and_return(sample_data)
+    end
+
+    it "fetches data from adapter and aggregates it" do
       expect(subject.stats).to eql(expected_stats)
+    end
+
+    it "extrapolates numbers correctly" do
+      allow(Turnstile.config).to receive(:sampling_rate).and_return(5)
+      expect(subject.stats).to eql(extrapolated_stats)
     end
   end
 end

@@ -11,6 +11,7 @@ describe Turnstile::Configuration do
       c.redis_db = "13"
 
       c.activity_interval = 30
+      c.sampling_rate = 10
     end
 
     expect(subject.redis_host).to eql "128.23.12.8"
@@ -18,6 +19,7 @@ describe Turnstile::Configuration do
     expect(subject.redis_db).to eql "13"
 
     expect(subject.activity_interval).to eql 30
+    expect(subject.sampling_rate).to eql 10
   end
 
   it "provides redis defaults" do
@@ -29,5 +31,6 @@ describe Turnstile::Configuration do
     expect(subject.redis_port).to eql 6379
     expect(subject.redis_db).to eql "1"
     expect(subject.activity_interval).to eql 60
+    expect(subject.sampling_rate).to eql 100
   end
 end

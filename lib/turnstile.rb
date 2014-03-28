@@ -1,5 +1,6 @@
 require 'turnstile/version'
 require 'turnstile/configuration'
+require 'turnstile/sampler'
 require 'turnstile/adapter'
 require 'turnstile/tracker'
 require 'turnstile/observer'
