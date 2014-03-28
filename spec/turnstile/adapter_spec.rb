@@ -10,36 +10,37 @@ describe Turnstile::Adapter do
   let(:other_uid) { 1238439 }
   let(:another_uid) { 1238440 }
 
-  let(:timestamp) { 1394508400 }
+  let(:ip) { '1.2.3.4' }
+  let(:another_ip) { '4.3.2.1' }
 
   let(:platform) { :ios }
   let(:another_platform) { :android }
 
   describe "#add" do
     it "calls redis with the correct params" do
-      key = "turnstile:#{timestamp}:#{platform}"
-      expect(redis).to receive(:sadd).once.with(key, uid)
-      expect(redis).to receive(:expire).once.with(key, Turnstile.config.activity_interval * 10)
-      subject.add(timestamp, uid, platform)
+      key = "t:#{uid}:#{platform}:#{ip}"
+      expect(redis).to receive(:setex).once.with(key, Turnstile.config.activity_interval, 1)
+      subject.add(uid, platform, ip)
     end
   end
 
   describe "#fetch" do
     let(:expected_hash) do
-      {
-          'ios' => 2,
-          'android' => 1
-      }
+      [
+        { uid: uid.to_s, platform: platform.to_s, ip: ip },
+        { uid: other_uid.to_s, platform: platform.to_s, ip: ip},
+        { uid: another_uid.to_s, platform: another_platform.to_s, ip: another_ip},
+      ]
     end
 
     before do
-      subject.add(timestamp, uid, platform)
-      subject.add(timestamp, other_uid, platform)
-      subject.add(timestamp, another_uid, another_platform)
+      subject.add(uid, platform, ip)
+      subject.add(other_uid, platform, ip)
+      subject.add(another_uid, another_platform, another_ip)
     end
 
     it "pulls the platform specific stats from redis" do
-      expect(subject.fetch(timestamp)).to eql expected_hash
+      expect(subject.fetch).to eql expected_hash
     end
   end
 

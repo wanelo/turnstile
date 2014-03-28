@@ -1,5 +1,4 @@
 require 'spec_helper'
-require 'timecop'
 
 describe Turnstile::Tracker do
 
@@ -8,18 +7,13 @@ describe Turnstile::Tracker do
   let(:adapter) { subject.send(:adapter) }
 
   let(:uid) { 1238438 }
-
-  let(:timestamp) { 1394508408 }
-  let(:window_timestamp) { 1394508360 }
-
   let(:platform) { :ios }
+  let(:ip) { '1.2.3.4' }
 
   describe "#track" do
-    it "calls adapter with the correct window" do
-      Timecop.freeze Time.at(timestamp) do
-        expect(adapter).to receive(:add).once.with(window_timestamp, uid, platform)
-        subject.track(uid, platform)
-      end
+    it "calls adapter with correct parameters" do
+      expect(adapter).to receive(:add).once.with(uid, platform, ip)
+      subject.track(uid, platform, ip)
     end
   end
 end

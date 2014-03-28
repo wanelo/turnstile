@@ -1,14 +1,15 @@
-require 'turnstile/helpers/time'
-
 module Turnstile
   class Observer
-    include Turnstile::Helpers::Time
-
     def stats
-      platforms = adapter.fetch(window_timestamp(Time.now.to_i, true))
+      data = adapter.fetch
+      platforms = Hash[data.group_by { |d| d[:platform] }.map { |k, v| [k, v.count] }]
+      total = platforms.values.inject(:+)
       {
-          'total' => platforms.values.inject(:+).to_i,
-          'platforms' => platforms
+        stats: {
+          total: total,
+          platforms: platforms
+        },
+        users: data
       }
     end
 

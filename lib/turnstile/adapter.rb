@@ -3,28 +3,26 @@ require 'redis'
 module Turnstile
   class Adapter
 
-    def add(timestamp, uid, platform = nil)
-      key = compose_key(timestamp, platform)
-      redis.sadd(key, uid)
-      redis.expire(key, Turnstile.config.activity_interval * 10)
+    def add(uid, platform, ip)
+      key = compose_key(uid, platform, ip)
+      redis.setex(key, Turnstile.config.activity_interval, 1)
     end
 
-    def fetch(timestamp)
-      platform_keys(timestamp).inject({}) do |h, key|
-        platform = key.split(':')[2]
-        h[(platform ? platform : 'unknown')] = redis.scard(key)
-        h
+    def fetch
+      redis.keys("t:*").map do |key|
+        fields = key.split(':')
+        {
+          uid: fields[1],
+          platform: fields[2],
+          ip: fields[3],
+        }
       end
     end
 
     private
 
-    def platform_keys(timestamp)
-      redis.keys(compose_key(timestamp, '*'))
-    end
-
-    def compose_key(timestamp, platform = nil)
-      "turnstile:#{timestamp}:#{platform}"
+    def compose_key(uid, platform = nil, ip = nil)
+      "t:#{uid}:#{platform}:#{ip}"
     end
 
     def redis

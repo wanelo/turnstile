@@ -1,11 +1,7 @@
-require 'turnstile/helpers/time'
-
 module Turnstile
   class Tracker
-    include Turnstile::Helpers::Time
-
-    def track(uid, platform = nil)
-      adapter.add(window_timestamp(Time.now.to_i), uid, platform)
+    def track(uid, platform = 'unknown', ip = nil)
+      adapter.add(uid, platform, ip)
     end
 
     private
