@@ -5,7 +5,12 @@ module Turnstile
 
     def add(uid, platform, ip)
       key = compose_key(uid, platform, ip)
-      redis.setex(key, Turnstile.config.activity_interval, 1)
+      Timeout.timeout(Turnstile.config.redis_timeout) do
+        redis.setex(key, Turnstile.config.activity_interval, 1)
+      end
+    rescue StandardError
+      # tracking should not impact other features
+      # TODO: log timeouts and connection errors here
     end
 
     def fetch
