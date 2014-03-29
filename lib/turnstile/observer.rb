@@ -3,7 +3,7 @@ module Turnstile
     def stats
       data = adapter.fetch
       platforms = Hash[data.group_by { |d| d[:platform] }.map { |k, v| [k, sampler.extrapolate(v.count)] }]
-      total = platforms.values.inject(:+)
+      total = platforms.values.inject(:+) || 0
       {
         stats: {
           total: total,
