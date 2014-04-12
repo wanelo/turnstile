@@ -6,10 +6,10 @@ require 'turnstile/version'
 Gem::Specification.new do |spec|
   spec.name          = "turnstile"
   spec.version       = Turnstile::VERSION
-  spec.authors       = ["Atasay Gokkaya"]
-  spec.email         = ["atasay@wanelo.com"]
-  spec.summary       = %q{Simple concurrent user tracking with Redis}
-  spec.description   = %q{Simple concurrent user tracking with Redis}
+  spec.authors       = ["Atasay Gokkaya", "Konstantin Gredeskoul"]
+  spec.email         = ["atasay@wanelo.com", "kigster@gmail.com"]
+  spec.summary       = %q{Simple concurrent user tracking with Redis and log ingestion}
+  spec.description   = %q{Simple concurrent user tracking with Redis and log ingestion}
   spec.homepage      = "https://github.com/wanelo/turnstile"
   spec.license       = "MIT"
 
@@ -19,6 +19,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ["lib"]
 
   spec.add_dependency 'redis'
+  spec.add_dependency 'file-tail'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'

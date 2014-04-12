@@ -10,7 +10,7 @@ module Turnstile
       end
     rescue StandardError
       # tracking should not impact other features
-      # TODO: log timeouts and connection errors here
+      # TODO: sample-production.log timeouts and connection errors here
     end
 
     def fetch

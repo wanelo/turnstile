@@ -1,3 +1,5 @@
+[![Build status](https://secure.travis-ci.org/wanelo/turnstile.png)](http://travis-ci.org/wanelo/turnstile)
+
 # Turnstile
 
 TODO: Write a gem description
