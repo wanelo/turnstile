@@ -10,7 +10,7 @@ describe 'Turnstile::Collector::LogReader' do
   let(:file) { "spec/fixtures/sample-production.log" }
 
   let(:reader) { Turnstile::Collector::LogReader.wanelo_ruby(file, queue) }
-  let(:read_timeout) { 0.02 }
+  let(:read_timeout) { 0.1 }
 
   before do
     reader.file.backward(1000)
