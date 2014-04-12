@@ -8,9 +8,8 @@ module Turnstile
       Timeout.timeout(Turnstile.config.redis_timeout) do
         redis.setex(key, Turnstile.config.activity_interval, 1)
       end
-    rescue StandardError
-      # tracking should not impact other features
-      # TODO: sample-production.log timeouts and connection errors here
+    rescue StandardError => e
+      Turnstile::Logger.log "exception while writing to redis: #{e.inspect}"
     end
 
     def fetch

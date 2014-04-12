@@ -1,0 +1,44 @@
+#!/usr/bin/env ruby
+ENV['BUNDLE_GEMFILE'] ||= File.expand_path('../../Gemfile', __FILE__)
+require 'rubygems'
+require 'bundler/setup' if File.exists?(ENV['BUNDLE_GEMFILE'])
+require 'turnstile'
+require 'optparse'
+
+options = {}
+ARGV << "-?" if ARGV.empty?
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: log-watcher -f <file> [options]"
+  opts.separator " "
+  opts.on("-v", "--verbose", "Print status to stdout") do |v|
+    options[:debug] = true
+  end
+  opts.on("-f", "--file FILE", "File to watch") do |file|
+    options[:file] = file
+  end
+  opts.on("-h", "--redis-host HOST", "Redis server host") do |host|
+    Turnstile.config.redis_host = host
+  end
+  opts.on("-p", "--redis-port PORT", "Redis server port") do |port|
+    Turnstile.config.redis_port = port
+  end
+  opts.on("-n", "--redis-db DB", "Redis server db") do |db|
+    Turnstile.config.redis_db = db
+  end
+  opts.on("-d", "--daemonize", "Should we daemonize") do |v|
+    options[:daemonize] = true
+  end
+  opts.on("-b", "--buffer-interval INTERVAL", "Buffer for this many seconds") do |v|
+    options[:buffer_interval] = v.to_i
+  end
+  opts.on("-i", "--flush-interval INTERVAL", "Flush then sleep for this many seconds") do |v|
+    options[:flush_interval] = v.to_i
+  end
+  opts.on_tail("-?", "--help", "Show this message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+Turnstile::Collector::Runner.new(options).run

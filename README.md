@@ -20,7 +20,38 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+You can start a log-watcher process that will tail the log in wanelo format and will
+update redis database.
+
+```ruby
+Usage: bundle exec log-watcher -f <file> [options]
+
+    -v, --verbose                    Print status to stdout
+    -f, --file FILE                  File to watch
+    -h, --redis-host HOST            Redis server host
+    -p, --redis-port PORT            Redis server port
+    -n, --redis-db DB                Redis server db
+    -d, --daemonize                  Should we daemonize
+    -b, --buffer-interval INTERVAL   Buffer for this many seconds
+    -i, --flush-interval INTERVAL    Flush then sleep for this many seconds
+    -?, --help                       Show this message
+```
+
+For example:
+
+```
+bundle exec log-watcher -v -f log/production/log -d -h 127.0.0.1 -p 6432
+
+2014-04-12 05:16:41 -0700: updater:flush        - nothing to flush, sleeping 6s..
+2014-04-12 05:16:41 -0700: updater:queue        - nothing in the queue, sleeping 5s...
+2014-04-12 05:16:41 -0700: log-reader           - starting to tail file log....
+2014-04-12 05:16:46 -0700: updater:queue        - nothing in the queue, sleeping 5s...
+2014-04-12 05:16:53 -0700: updater:flush        - nothing to flush, sleeping 6s..
+2014-04-12 05:16:56 -0700: updater:queue        - (     0.65ms) caching [746] keys locally
+2014-04-12 05:16:59 -0700: updater:flush        - (    91.73ms) flushing cache with [602] keys
+2014-04-12 05:17:05 -0700: updater:flush        - nothing to flush, sleeping 6s..
+^Ctrl-C
+```
 
 ## Contributing
 

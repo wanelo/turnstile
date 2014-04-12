@@ -22,7 +22,7 @@ module Turnstile
       def run
         Thread.new do
           Thread.current[:name] = "log-reader"
-          puts "tailing file #{file.path}...."
+          Turnstile::Logger.log "starting to tail file #{file.path}...."
           process!
         end
       end

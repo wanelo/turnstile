@@ -4,6 +4,7 @@ require 'turnstile/sampler'
 require 'turnstile/adapter'
 require 'turnstile/tracker'
 require 'turnstile/observer'
+require 'turnstile/logger'
 require 'turnstile/collector'
 
 module Turnstile
