@@ -4,13 +4,13 @@ module Turnstile
 
       class Session < ::Struct.new(:uid, :platform, :ip); end
 
-      attr_accessor :queue, :semaphore, :cache, :adapter, :buffer_interval, :flush_interval
+      attr_accessor :queue, :semaphore, :cache, :tracker, :buffer_interval, :flush_interval
 
       def initialize(queue, buffer_interval = 5, flush_interval = 6)
         @queue = queue
         @semaphore = Mutex.new
         @cache = Hash.new(0)
-        @adapter = Turnstile::Adapter.new
+        @tracker = Turnstile::Tracker.new
         @buffer_interval = buffer_interval
         @flush_interval = flush_interval
       end
@@ -42,7 +42,7 @@ module Turnstile
                 Turnstile::Logger.logging "flushing cache with [#{cache.keys.size}] keys" do
                   cache.keys.each do |key|
                     session = parse(key)
-                    adapter.add(session.uid, session.platform, session.ip)
+                    tracker.track(session.uid, session.platform, session.ip)
                   end
                   reset_cache
                 end
