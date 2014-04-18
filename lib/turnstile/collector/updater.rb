@@ -42,7 +42,7 @@ module Turnstile
                 Turnstile::Logger.logging "flushing cache with [#{cache.keys.size}] keys" do
                   cache.keys.each do |key|
                     session = parse(key)
-                    tracker.track(session.uid, session.platform, session.ip)
+                    tracker.track(session.uid, session.platform, session.ip) unless session.uid.empty?
                   end
                   reset_cache
                 end
