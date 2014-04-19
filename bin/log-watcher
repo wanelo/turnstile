@@ -32,6 +32,9 @@ OptionParser.new do |opts|
   opts.on("-b", "--buffer-interval INTERVAL", "Buffer for this many seconds") do |v|
     options[:buffer_interval] = v.to_i
   end
+  opts.on("-i", "--flush-interval INTERVAL", "Flush then sleep for this many seconds") do |v|
+    options[:flush_interval] = v.to_i
+  end
   opts.on("-s", "--summary", "Print out current totals in NAD compatible format") do |v|
     options[:summary] = true
   end
