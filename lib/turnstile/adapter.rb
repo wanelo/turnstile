@@ -23,6 +23,18 @@ module Turnstile
       end
     end
 
+    def aggregate
+      h = redis.keys("t:*").inject({}) do |hash, key|
+        platform = key.split(':')[2]
+        hash[platform] ||= 0
+        hash[platform] += 1
+        hash
+      end
+      total = h.values.inject(&:+) || 0
+      h['total'] = total
+      h
+    end
+
     private
 
     def compose_key(uid, platform = nil, ip = nil)

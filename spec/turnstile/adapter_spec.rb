@@ -44,4 +44,27 @@ describe Turnstile::Adapter do
     end
   end
 
+  describe '#aggregate' do
+    let(:expected_hash) do
+      {
+          'android' => 3,
+          'ios' => 2,
+          'total' => 5
+      }
+    end
+
+    before do
+      subject.add(123, :android, ip)
+      subject.add(124, :android, ip)
+      subject.add(125, :android, ip)
+
+      subject.add(200, :ios, ip)
+      subject.add(201, :ios, ip)
+    end
+
+    it "should calculated proper aggregation" do
+      expect(subject.aggregate).to eql expected_hash
+    end
+  end
+
 end

@@ -6,6 +6,7 @@ require 'turnstile/tracker'
 require 'turnstile/observer'
 require 'turnstile/logger'
 require 'turnstile/collector'
+require 'turnstile/nad'
 
 module Turnstile
   def self.configure(&block)
