@@ -15,9 +15,9 @@ describe 'Turnstile::Nad' do
 
       let(:expected_string) {
           <<-EOF
-turnstile.android#{"\t"}s#{"\t"}3
-turnstile.ios#{"\t"}s#{"\t"}2
-turnstile.total#{"\t"}s#{"\t"}5
+turnstile:android#{"\t"}n#{"\t"}3
+turnstile:ios#{"\t"}n#{"\t"}2
+turnstile:total#{"\t"}n#{"\t"}5
           EOF
       }
 

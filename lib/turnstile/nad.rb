@@ -4,7 +4,7 @@ module Turnstile
     def data
       out = ""
       aggregate.each_pair do |key, value|
-        out << %Q(turnstile.#{key}#{"\ts\t"}#{value}\n)
+        out << %Q(turnstile:#{key}#{"\tn\t"}#{value}\n)
       end
       out
     end
