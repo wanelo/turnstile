@@ -12,7 +12,9 @@ module Turnstile
         @cache = Hash.new(0)
         @tracker = Turnstile::Tracker.new
         @buffer_interval = buffer_interval
+        @buffer_interval = 6 if @buffer_interval <= 0
         @flush_interval = flush_interval
+        @flush_interval = 5 if @flush_interval <= 0
       end
 
       def run
