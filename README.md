@@ -40,7 +40,7 @@ Usage: bundle exec log-watcher -f <file> [options]
 For example:
 
 ```
-bundle exec log-watcher -v -f log/production/log -d -h 127.0.0.1 -p 6432
+> bundle exec log-watcher -v -f log/production/log -d -h 127.0.0.1 -p 6432
 
 2014-04-12 05:16:41 -0700: updater:flush        - nothing to flush, sleeping 6s..
 2014-04-12 05:16:41 -0700: updater:queue        - nothing in the queue, sleeping 5s...
@@ -51,6 +51,24 @@ bundle exec log-watcher -v -f log/production/log -d -h 127.0.0.1 -p 6432
 2014-04-12 05:16:59 -0700: updater:flush        - (    91.73ms) flushing cache with [602] keys
 2014-04-12 05:17:05 -0700: updater:flush        - nothing to flush, sleeping 6s..
 ^Ctrl-C
+```
+
+## Circonus NAD Integration
+
+We use Circonus to collect and graph data. You can use ```log-watcher```
+to dump the current aggregate statistics from redis to standard output,
+which is a tab-delimited format consumable by the nad daemon.
+
+(below output is formatted to show tabs as aligned for readability).
+
+```ruby
+> bin/log-watcher -h 127.0.0.1 -p 6432 -s
+turnstile.iphone	 s      383
+turnstile.ipad       s	    34
+turnstile.android    s      108
+turnstile.ipod_touch s      34
+turnstile.unknown    s      36
+turnstile.total      s      595
 ```
 
 ## Contributing
