@@ -52,20 +52,15 @@ If adding latency to a web request is not desirable (it was not in our case), an
 ```log-watcher``` is scanning for log lines matching a particular pattern, and then extracting user id, IP and platform
 based on a configurable regular expression.
 
-  TODO: allow users of the gem to easier customize log reader to fit their own custom log files.
-
 The logging approach expects that you print a special token into your log file, which contains 3 column separated
 fields: platform, IP, user_id, for example 'desktop:125.4.5.13:3456' would be a token extractable from 
 a log file. 
 
 For example our log lines look something like this:
-
 ```
 2014-04-22 21:21:38.382 77874: info x-rqst | 389447874921382344 | iphone:44.22.12.245:434324:user2345 | 10ms | GET /api/v1/some-api-url .....
 ```
-
 The 9th field in that line above contains our token, and "x-rqst" is a special string we include in these log lines that we log for every request. This is why we instantiate the logger as follows:
-
 ```ruby
 module Turnstile
   module Collector
@@ -78,9 +73,7 @@ module Turnstile
   end
 end
 ```
-
-You can start a ```log-watcher``` process that will tail the log in wanelo format and will update redis database.
-
+You can start a ```log-watcher``` process that will tail the log in the wanelo format and will update redis database.
 ```ruby
 Usage: bundle exec log-watcher -f <file> [options]
 
@@ -94,9 +87,7 @@ Usage: bundle exec log-watcher -f <file> [options]
     -i, --flush-interval INTERVAL    Flush then sleep for this many seconds
     -?, --help                       Show this message
 ```
-
 For example:
-
 ```
 > bundle exec log-watcher -v -f log/production/log -d -h 127.0.0.1 -p 6432
 
@@ -120,27 +111,21 @@ Once the tracking information is sent, the data can be queried.
 
 If you used sampling, then you should query using ```Turnstile::Observer``` class that provides 
 exprapolation of the results based on sample size configuration.
-
 ```ruby
 # Return data for sampled users and the summary 
 Turnstile::Observer.new.stats
 # => { stats: { total: 3, platforms: 2 }, users: [ { uid: 1, platform: 'desktop', ip: '123.2.4.54' }, ... ]
 ```
-
 If you did not use sampling, you can get some answers from the ```Turnstile::Adapter``` class:
-
 ```ruby
 Turntstile::Adapter.new.fetch
 # => [ { uid: 213, :platform: 'desktop', '123.2.4.54' }, { uid: 215, ... } ]
 ```
-
 You can also request an aggregate results, suitable for sending to graphing systems or displaying on a dashboard:
-
 ```ruby
 Turntstile::Adapter.new.aggregate
 # => { 'desktop' => 234, 'ios' => 3214, ...,  'total' => 4566 }
 ```
-
 
 ## Circonus NAD Integration
 
@@ -159,6 +144,12 @@ turnstile.ipod_touch n      34
 turnstile.unknown    n      36
 turnstile.total      n      595
 ```
+
+## TODO:
+
+* Allow users of the gem to easier customize log reader to fit their own custom log files
+* Export configuration into a YAML file and load from there by defaul
+* Refactor commands to have a single ```turnstile``` CLI with sub-commands ```watch``` and ```report```.
 
 ## Contributing
 
