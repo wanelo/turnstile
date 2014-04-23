@@ -30,9 +30,9 @@ or off web request by log parsing.
 
 #### Real Time
 
-At the API level, you would use the ```Tracker``` class to register the event of "seeing" a user online, which can be done from a web request, or from parsing a log (for example) if you prefer not to add latency (and redis call dependency) to your web requests.
-
-If you want to use sampling, you should use ```Turnstile::Tracker#track``` method that supports sampling. If you want to store 100% of your data, you can use ```Turnstile::Adapter#add``` instead.
+If you prefer to use sampling to _estimate_ number of online users, you 
+should use ```Turnstile::Tracker#track``` method that supports sampling. 
+If you want to store 100% of your data, you can use ```Turnstile::Adapter#add``` instead.
 
 ```ruby
 user_id   = 12345
