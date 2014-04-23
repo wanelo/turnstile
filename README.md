@@ -4,7 +4,7 @@
 
 The goal of this gem is to provide near real time tracking and reporting on the number of users currently online and accessing given application.  It requires that the reporting layer is able to uniquely identify each user and provide a unique identifier.  It may also optionally assign another dimension to the users accessing, such as, for example, _platform_ -- which in our case denotes how the user is accessing our application: from desktop browser, iOS app, Android app, mobile web, etc.  But any other partitioning schemee can be used, or none at all.
 
-The gem uses (and depends on) a (redis)[http://redis.io/] instance in order to keep track of _unique_ users, and it stores each user as a triplet of values in a hash key: ```{ unique id, IP address, platform }```. 
+The gem uses (and depends on) a [Redis](http://redis.io/) instance in order to keep track of _unique_ users, and it stores each user as a triplet of values in a hash key: ```{ unique id, IP address, platform }```. 
 
 ## Installation
 
@@ -22,7 +22,11 @@ Or install it yourself as:
 
 ## Usage
 
-### Tracking
+### Tracking 
+
+Turnstile contains two primary parts: data collection and reporting.  Data collection may happen synchronously
+in real time from a web request across many web servers (as long as they can talk to the redis instance), 
+or off web request by log parsing.
 
 #### Real Time
 
@@ -44,8 +48,8 @@ is considered _online_ for 60 seconds.  Each subsequent call to ```track()``` re
 
 #### Offline Log Parsing by "Tailing"
 
-If adding latency to a web request is not desirable (it was not in our case), another option is to run Turnstile log-watcher process as a daemon, which then "tails" the log file of your application servers. In this mode
-log-watcher is scanning for log lines matching a particular pattern, and then extracting user id, IP and platform
+If adding latency to a web request is not desirable (it was not in our case), another option is to run Turnstile ```log-watcher``` process as a daemon, which then "tails" the log file of your application servers. In this mode
+```log-watcher``` is scanning for log lines matching a particular pattern, and then extracting user id, IP and platform
 based on a configurable regular expression.
 
   TODO: allow users of the gem to easier customize log reader to fit their own custom log files.
@@ -75,7 +79,7 @@ module Turnstile
 end
 ```
 
-You can start a log-watcher process that will tail the log in wanelo format and will update redis database.
+You can start a ```log-watcher``` process that will tail the log in wanelo format and will update redis database.
 
 ```ruby
 Usage: bundle exec log-watcher -f <file> [options]
