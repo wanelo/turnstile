@@ -18,24 +18,13 @@ module Turnstile
       end
 
       def run
-        Thread.new do
-          Thread.current[:name] = "updater:queue"
-          loop do
-            unless queue.empty?
-              Turnstile::Logger.logging "caching [#{queue.size}] keys locally" do
-                while !queue.empty?
-                  semaphore.synchronize {
-                    add(queue.pop)
-                  }
-                end
-              end
-            else
-              Turnstile::Logger.log "nothing in the queue, sleeping #{buffer_interval}s..."
-            end
-            sleep buffer_interval
-          end
-        end
+        run_queue_popper
+        run_flusher
+      end
 
+      private
+
+      def run_flusher
         Thread.new do
           Thread.current[:name] = "updater:flush"
           loop do
@@ -59,11 +48,29 @@ module Turnstile
         end
       end
 
+      def run_queue_popper
+        Thread.new do
+          Thread.current[:name] = "updater:queue"
+          loop do
+            unless queue.empty?
+              Turnstile::Logger.logging "caching [#{queue.size}] keys locally" do
+                while !queue.empty?
+                  semaphore.synchronize {
+                    add(queue.pop)
+                  }
+                end
+              end
+            else
+              Turnstile::Logger.log "nothing in the queue, sleeping #{buffer_interval}s..."
+            end
+            sleep buffer_interval
+          end
+        end
+      end
+
       def add(token)
         cache[token] = 1
       end
-
-      private
 
       def parse(token)
         a = token.split(':')
