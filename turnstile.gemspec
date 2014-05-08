@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'fakeredis'
   spec.add_development_dependency 'guard-rspec'
   spec.add_development_dependency 'rb-fsevent'
+  spec.add_development_dependency 'codeclimate-test-reporter'
 end
