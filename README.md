@@ -1,4 +1,6 @@
+[![Gem Version](https://badge.fury.io/rb/turnstile.png)](http://badge.fury.io/rb/turnstile)
 [![Build status](https://secure.travis-ci.org/wanelo/turnstile.png)](http://travis-ci.org/wanelo/turnstile)
+[![Code Climate](https://codeclimate.com/github/wanelo/turnstile.png)](https://codeclimate.com/github/wanelo/turnstile)
 
 # Turnstile
 
@@ -89,7 +91,7 @@ Usage: bundle exec log-watcher -f <file> [options]
 ```
 For example:
 ```
-> bundle exec log-watcher -v -f log/production/log -d -h 127.0.0.1 -p 6432
+> bundle exec log-watcher -v -f log/production/log -h 127.0.0.1 -p 6432 | tee /var/log/turnstile.log
 
 2014-04-12 05:16:41 -0700: updater:flush        - nothing to flush, sleeping 6s..
 2014-04-12 05:16:41 -0700: updater:queue        - nothing in the queue, sleeping 5s...
