@@ -6,3 +6,5 @@ rvm:
 script: "bundle exec rspec"
 notifications:
   email: false
+env:
+  CODECLIMATE_REPO_TOKEN: "f0184706e47a22d27ad6a83e7ad2b01d9844865e7f9055f25b7e72fa25e6e40b"
