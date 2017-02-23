@@ -5,7 +5,7 @@ module Turnstile
     class LogReader
 
       def self.wanelo_ruby(file, queue)
-        new(file, queue, %r{x-rqst}, ->(line){line.split(' ')[8]})
+        new(file, queue, %r{x-rqst}, ->(line){line.split(/\s*\|\s*/)[2]})
       end
 
       attr_accessor :file, :queue, :must_match, :extractor
