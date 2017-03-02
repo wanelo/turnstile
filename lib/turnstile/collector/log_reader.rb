@@ -5,7 +5,7 @@ module Turnstile
     class LogReader
 
       def self.wanelo_ruby(file, queue)
-        new(file, queue, %r{x-rqst}, ->(line){line.split(/\s*\|\s*/)[2]})
+        new(file, queue, %r{ip_address=\d+}, ->(line){line.match(/ip_address=([\d\.]+)/).captures.first})
       end
 
       attr_accessor :file, :queue, :must_match, :extractor

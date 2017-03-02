@@ -40,8 +40,8 @@ describe 'Turnstile::Collector::LogReader' do
         end
       end
 
-      expect(counter).to eql(746)
-      expect(hash.keys.size).to eql(602)
+      expect(counter).to eql(740)
+      expect(hash.keys.size).to eql(312)
     end
   end
 
@@ -50,7 +50,7 @@ describe 'Turnstile::Collector::LogReader' do
       run_reader do
         reader.process!
       end
-      expect(queue.size).to eql(746)
+      expect(queue.size).to eql(740)
     end
   end
 end
