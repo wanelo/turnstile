@@ -41,7 +41,8 @@ describe 'Turnstile::Collector::LogReader' do
       end
 
       expect(counter).to eql(740)
-      expect(hash.keys.size).to eql(312)
+      expect(hash.keys.size).to eql(339)
+      expect(hash.keys.first).to eq("iphone:107.77.193.79:20973749")
     end
   end
 
