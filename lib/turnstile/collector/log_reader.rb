@@ -3,14 +3,20 @@ require 'file-tail'
 module Turnstile
   module Collector
     class LogReader
+      require 'json'
 
       def self.wanelo_ruby(file, queue)
-        new(file, queue, %r{ip_address=\d+}, ->(line) {
-          [
-              line.match(/platform=([\w]+)?/).captures.first,
-              line.match(/ip_address=([\d\.]+)?/).captures.first,
-              line.match(/user_id=(\d+)?/).captures.first
-          ].join(":")
+        new(file, queue, %r{"ip_address":"\d+}, ->(line) {
+          begin
+            data = JSON.parse(line)
+            [
+                data['platform'],
+                data['ip_address'],
+                data['user_id']
+            ].join(':')
+          rescue
+            nil
+          end
         })
       end
 

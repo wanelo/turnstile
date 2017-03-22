@@ -21,6 +21,7 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'redis'
   spec.add_dependency 'file-tail'
   spec.add_dependency 'daemons'
+  spec.add_dependency 'json'
 
   spec.add_development_dependency 'bundler'
   spec.add_development_dependency 'rake'
