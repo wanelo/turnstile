@@ -6,10 +6,10 @@ require 'turnstile/version'
 Gem::Specification.new do |spec|
   spec.name          = 'turnstile'
   spec.version       = Turnstile::VERSION
-  spec.authors       = ['Atasay Gokkaya', 'Konstantin Gredeskoul']
-  spec.email         = %w(atasay@wanelo.com kigster@gmail.com)
-  spec.summary       = %q{Simple concurrent user tracking with Redis and log ingestion}
-  spec.description   = %q{Simple concurrent user tracking with Redis and log ingestion}
+  spec.authors       = ['Konstantin Gredeskoul', 'Atasay Gokkaya']
+  spec.email         = %w(kigster@gmail.com atasay@wanelo.com)
+  spec.summary       = %q{Asynchronous and non-invasive concurrent user tracking with Redis, by scanning application logs across all servers.}
+  spec.description   = %q{Asynchronous and non-invasive concurrent user tracking with Redis, by scanning application logs across all servers.}
   spec.homepage      = 'https://github.com/wanelo/turnstile'
   spec.license       = 'MIT'
 

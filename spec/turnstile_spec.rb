@@ -60,5 +60,9 @@ describe Turnstile do
     it 'tracks concurrent users online' do
       expect(observer.stats.to_hash[:users].map(&:to_s).sort).to eq(expected_stats[:users].map(&:to_s).sort)
     end
+
+    it 'tracks stats correctly' do
+      expect(observer.stats.to_hash[:stats].map(&:to_a).sort).to eq(expected_stats[:stats].map(&:to_a).sort)
+    end
   end
 end
