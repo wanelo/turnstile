@@ -5,9 +5,10 @@ require 'thread'
 require 'tempfile'
 
 describe 'Turnstile::Collector::LogReader' do
+  include Timeout
 
   let(:queue) { Queue.new }
-  let(:file) { "spec/fixtures/sample-production.log" }
+  let(:file) { 'spec/fixtures/sample-production.log' }
 
   let(:reader) { Turnstile::Collector::LogReader.wanelo_ruby(file, queue) }
   let(:read_timeout) { 0.1 }
@@ -22,14 +23,14 @@ describe 'Turnstile::Collector::LogReader' do
         timeout(read_timeout) do
           block.call
         end
-      rescue TimeoutError
+      rescue Timeout::Error
       end
     end
     t_reader.join
   end
 
-  context "#read" do
-    it "should be able to read and parse IPs from a static file" do
+  context '#read' do
+    it 'should be able to read and parse IPs from a static file' do
       hash = {}
       counter = 0
 
@@ -42,12 +43,12 @@ describe 'Turnstile::Collector::LogReader' do
 
       expect(counter).to eql(31)
       expect(hash.keys.size).to eql(28)
-      expect(hash.keys.first).to eq("ipad:69.61.173.104:5462583")
+      expect(hash.keys.first).to eq('ipad:69.61.173.104:5462583')
     end
   end
 
-  context "#process!" do
-    it "should read values into the queue" do
+  context '#process!' do
+    it 'should read values into the queue' do
       run_reader do
         reader.process!
       end

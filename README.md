@@ -1,6 +1,8 @@
 [![Gem Version](https://badge.fury.io/rb/turnstile.png)](http://badge.fury.io/rb/turnstile)
-[![Build status](https://secure.travis-ci.org/wanelo/turnstile.png)](http://travis-ci.org/wanelo/turnstile)
-[![Code Climate](https://codeclimate.com/github/wanelo/turnstile.png)](https://codeclimate.com/github/wanelo/turnstile)
+[![Build Status](https://travis-ci.org/wanelo/turnstile.svg?branch=master)](https://travis-ci.org/wanelo/turnstile)
+[![Test Coverage](https://codeclimate.com/github/wanelo/turnstile/badges/coverage.svg)](https://codeclimate.com/github/wanelo/turnstile/coverage)
+[![Code Climate](https://codeclimate.com/github/wanelo/turnstile/badges/gpa.svg)](https://codeclimate.com/github/wanelo/turnstile)
+[![Issue Count](https://codeclimate.com/github/wanelo/turnstile/badges/issue_count.svg)](https://codeclimate.com/github/wanelo/turnstile)
 
 # Turnstile
 
@@ -8,11 +10,17 @@ The goal of this gem is to provide near real time tracking and reporting on the 
 
 The gem uses (and depends on) a [Redis](http://redis.io/) instance in order to keep track of _unique_ users, and it stores each user as a triplet of values in a hash key: ```{ unique id, IP address, platform }```. 
 
+## Demo
+
+If you are using a dashboard to display your current metrics, you could be showing current online users like (note, the actual number are from the test application we used to verify accuracy of the gem, and are not a representation of traffic to any public facing application).
+
+![Dashboard](https://raw.githubusercontent.com/wanelo/turnstile/master/turnstile.png)
+
 ## Installation
 
-Add this line to your application's Gemfile:
+Add this line to your application's Gemfile (Note that another gem with a competing name is on RubyGems, so you **must** specify the path below):
 
-    gem 'turnstile'
+    gem 'turnstile', git: 'https://github.com/wanelo/turnstile'
 
 And then execute:
 
