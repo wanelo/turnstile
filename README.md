@@ -11,7 +11,9 @@ The gem uses (and depends on) a [Redis](http://redis.io/) instance in order to k
 
 ## Example Dashboard
 
-If you are using a dashboard to display your current metrics, you could be showing current online users like (note, the actual number are from the test application we used to verify accuracy of the gem, and are not a representation of traffic to any public facing application).
+If you use a dashboard to display your current metrics, you could be showing current online users broken down by the platform, like in the image below. 
+
+> **NOTE:**, the actual number are from the test application we used to verify accuracy of the gem, and are not a representation of traffic to any public facing application).
 
 ![Dashboard](https://raw.githubusercontent.com/wanelo/turnstile/ruby-2.4/turnstile.png)
 
