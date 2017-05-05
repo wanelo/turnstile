@@ -1,4 +1,3 @@
-[![Gem Version](https://badge.fury.io/rb/turnstile.png)](http://badge.fury.io/rb/turnstile)
 [![Build Status](https://travis-ci.org/wanelo/turnstile.svg?branch=master)](https://travis-ci.org/wanelo/turnstile)
 [![Test Coverage](https://codeclimate.com/github/wanelo/turnstile/badges/coverage.svg)](https://codeclimate.com/github/wanelo/turnstile/coverage)
 [![Code Climate](https://codeclimate.com/github/wanelo/turnstile/badges/gpa.svg)](https://codeclimate.com/github/wanelo/turnstile)
@@ -10,7 +9,7 @@ The goal of this gem is to provide near real time tracking and reporting on the 
 
 The gem uses (and depends on) a [Redis](http://redis.io/) instance in order to keep track of _unique_ users, and it stores each user as a triplet of values in a hash key: ```{ unique id, IP address, platform }```. 
 
-## Demo
+## Example Dashboard
 
 If you are using a dashboard to display your current metrics, you could be showing current online users like (note, the actual number are from the test application we used to verify accuracy of the gem, and are not a representation of traffic to any public facing application).
 
