@@ -1,34 +1,38 @@
+require 'hashie/dash'
+require 'hashie/extensions/dash/property_translation'
+
 module Turnstile
-  class Configuration
-    attr_writer :redis_host, :redis_port, :redis_db, :redis_timeout, :activity_interval, :sampling_rate
+  class RedisConfig < ::Hashie::Dash
+    include Hashie::Extensions::Dash::PropertyTranslation
+
+    property :host, default: '127.0.0.1', required: true
+    property :port, default: 6379, required: true, transform_with: ->(value) { value.to_i }
+    property :db, default: 1, required: true, transform_with: ->(value) { value.to_i }
+    property :timeout, default: 0.05, required: true, transform_with: ->(value) { value.to_f }
 
     def configure
-      yield self
+      yield self if block_given?
+      self
+    end
+  end
+
+  class Configuration < ::Hashie::Dash
+    include Hashie::Extensions::Dash::PropertyTranslation
+    property :activity_interval, default: 60, required: true, transform_with: ->(value) { value.to_i }
+    property :sampling_rate, default: 100, required: true, transform_with: ->(value) { value.to_i }
+    property :redis, default: ::Turnstile::RedisConfig.new
+
+    def configure
+      yield self if block_given?
       self
     end
 
-    def redis_host
-      @redis_host || '127.0.0.1'
-    end
-
-    def redis_port
-      (@redis_port || 6379).to_i
-    end
-
-    def redis_db
-      @redis_db || '1'
-    end
-
-    def redis_timeout
-      (@redis_timeout || 0.05).to_f
-    end
-
-    def activity_interval
-      (@activity_interval || 60).to_i
-    end
-
-    def sampling_rate
-      (@sampling_rate || 100).to_i
+    def method_missing(method, *args, &block)
+      return super unless method.to_s =~ /^redis_/
+      prop = method.to_s.gsub(/^redis_/, '').to_sym
+      if self.redis.respond_to?(prop)
+        prop.to_s.end_with?('=') ? self.redis.send(prop, *args, &block) : self.redis.send(prop)
+      end
     end
   end
 end

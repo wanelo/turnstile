@@ -20,15 +20,15 @@ describe Turnstile do
   let(:ip) { '1.2.3.4' }
   let(:other_ip) { '4.3.2.1' }
 
-  describe "general tests" do
+  describe 'general tests' do
     let(:expected_stats) do
       {
         stats: {
           total: 5,
           platforms: {
-            'ios' => 3,
-            'android' => 1,
-            'unknown' => 1
+            ios:     3,
+            android: 1,
+            unknown: 1
           }
         },
         users: [
@@ -41,7 +41,7 @@ describe Turnstile do
       }
     end
 
-    it "tracks concurrent users online" do
+    before do
       tracker.track(uid_1, platform, ip)
       tracker.track(uid_1, platform, ip)
       tracker.track(uid_2, platform, other_ip)
@@ -51,7 +51,18 @@ describe Turnstile do
       tracker.track(uid_3, other_platform, ip)
       tracker.track(uid_4, platform)
       tracker.track(uid_5)
-      expect(observer.stats).to eql expected_stats
+    end
+
+    subject(:stats) { observer.stats }
+
+    its(:size) { should eq expected_stats.size }
+
+    it 'tracks concurrent users online' do
+      expect(observer.stats.to_hash[:users].map(&:to_s).sort).to eq(expected_stats[:users].map(&:to_s).sort)
+    end
+
+    it 'tracks stats correctly' do
+      expect(observer.stats.to_hash[:stats].map(&:to_a).sort).to eq(expected_stats[:stats].map(&:to_a).sort)
     end
   end
 end

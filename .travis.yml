@@ -1,10 +1,15 @@
 language: ruby
 rvm:
-  - 1.9.3
-  - 2.0.0
-  - 2.1.0
-script: "bundle exec rspec"
+- 2.2.7
+- 2.3.4
+- 2.4.1
+script: bundle exec rspec
+after_success: bundle exec codeclimate-test-reporter
 notifications:
   email: false
-env:
-  CODECLIMATE_REPO_TOKEN: "f0184706e47a22d27ad6a83e7ad2b01d9844865e7f9055f25b7e72fa25e6e40b"
+services:
+- redis-server
+addons:
+  code_climate:
+    repo_token:
+      secure: JdaHoTmG3vxIktY3SR+x2F6dnV2Chsb5J+UKMKKdKxe+kqqH7cou5CcvKrmIbjJN95YH57UxgqTChthvUrGvsUWvNXsvmIl3VbCbeV4HGfjBqirawE8DkIC44L9l/Jz5pf/jviKE5YQVhTAaMoCnWnqDL2lNMj0EnEAPbLFZhaQ=

@@ -36,28 +36,28 @@ describe Turnstile::Observer do
     }
   end
 
-  describe "#stats" do
-    context "when there are users" do
+  describe '#stats' do
+    context 'when there are users' do
       before do
         expect(adapter).to receive(:fetch).once.and_return(sample_data)
       end
 
-      it "fetches data from adapter and aggregates it" do
+      it 'fetches data from adapter and aggregates it' do
         expect(subject.stats).to eql(expected_stats)
       end
 
-      it "extrapolates numbers correctly" do
+      it 'extrapolates numbers correctly' do
         allow(Turnstile.config).to receive(:sampling_rate).and_return(5)
         expect(subject.stats).to eql(extrapolated_stats)
       end
     end
 
-    context "when there are no users" do
+    context 'when there are no users' do
       before do
         expect(adapter).to receive(:fetch).once.and_return([])
       end
 
-      it "returns 0 for total" do
+      it 'returns 0 for total' do
         expect(subject.stats[:stats][:total]).to eql 0
       end
     end
